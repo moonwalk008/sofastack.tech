@@ -1,36 +1,13 @@
-version: 2
-jobs:
-  lint-site:
-    docker:
-    - image: jimmysong/website-builder:2019-07-18
-    working_directory: ~/site
-    steps:
-    - checkout
-    - run:
-        name: Linting the site
-        command: scripts/lint-site.sh
-  markdown-spell-check:
-    docker:
-    - image: jimmysong/website-builder:2019-07-18
-    working_directory: ~/site
-    steps:
-    - checkout
-    - run:
-        name: Running markdown spell check
-        command: scripts/mdspell-check.sh
-  markdown-style-check:
-    docker:
-    - image: jimmysong/website-builder:2019-07-18
-    working_directory: ~/site
-    steps:
-    - checkout
-    - run:
-        name: Running markdown style check
-        command: scripts/mdl-check.sh
+# Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
+version: 2.1
+# Use a package of configuration called an orb.
+orbs:
+  # Declare a dependency on the welcome-orb
+  welcome: circleci/welcome-orb@0.4.1
+# Orchestrate or schedule a set of jobs
 workflows:
-  version: 2
-  workflow:
+  # Name the workflow "welcome"
+  welcome:
+    # Run the welcome/run job in its own container
     jobs:
-    - lint-site
-    - markdown-spell-check
-    - markdown-style-check
+      - welcome/run
